@@ -47,7 +47,7 @@ HOST = "PrateekG93"   # shown as  you@github  in the header
 
 ROWS = [
     ("host",),
-    ("kv", "Now", "AI/ML Engineer Intern @ Patidar Agriculture"),
+    ("kv", "Now", "AI/ML Engineer Intern @ Fluent Feed"),
     ("kv", "Edu", "B.Tech CS & AI @ JK Lakshmipat Uni ('23)"),
     ("kv", "Exchange", "IIT Gandhinagar & IIT Jammu"),
     ("gap",),

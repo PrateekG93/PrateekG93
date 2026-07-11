@@ -42,21 +42,25 @@ ROW_T = 0.045   # per-row delay contribution (top -> bottom cascade)
 CELL_DUR = 0.42
 
 
-def level_for(count):
-    if count == 0:
-        return 0
-    if count <= 5:
-        return 1
-    if count <= 15:
-        return 2
-    if count <= 30:
-        return 3
-    if count <= 50:
-        return 4
-    return 5
-
-
 def build_grid(days):
+    max_count = max((d["count"] for d in days), default=1)
+    if max_count == 0:
+        max_count = 1
+
+    def dynamic_level(count):
+        if count == 0:
+            return 0
+        ratio = count / max_count
+        if ratio <= 0.25:
+            return 1
+        if ratio <= 0.50:
+            return 2
+        if ratio <= 0.75:
+            return 3
+        if ratio <= 0.90:
+            return 4
+        return 5
+
     first = datetime.date.fromisoformat(days[0]["date"])
     lead_pad = (first.weekday() + 1) % 7  # sunday=0
     grid = []
@@ -66,7 +70,7 @@ def build_grid(days):
         weekday = (date.weekday() + 1) % 7
         while len(col) < weekday:
             col.append(None)
-        col.append((d["date"], d["count"], level_for(d["count"])))
+        col.append((d["date"], d["count"], dynamic_level(d["count"])))
         if len(col) == 7:
             grid.append(col)
             col = []
